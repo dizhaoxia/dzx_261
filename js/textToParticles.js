@@ -1,4 +1,4 @@
-export function textToParticlePositions(text, fontSize = 100, particleSpacing = 2) {
+export function textToParticlePositions(text, fontSize = 100, particleSpacing = 2, diffusion = 1.0) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     
@@ -29,6 +29,8 @@ export function textToParticlePositions(text, fontSize = 100, particleSpacing = 
     
     const positions = [];
     const scale = 0.5;
+    const baseJitter = 5;
+    const jitterAmount = baseJitter * diffusion;
     
     for (let y = 0; y < canvas.height; y += particleSpacing) {
         for (let x = 0; x < canvas.width; x += particleSpacing) {
@@ -36,9 +38,9 @@ export function textToParticlePositions(text, fontSize = 100, particleSpacing = 
             const brightness = pixels[index];
             
             if (brightness > 128) {
-                const px = (x - canvas.width / 2) * scale;
-                const py = (canvas.height / 2 - y) * scale;
-                const pz = (Math.random() - 0.5) * 5;
+                const px = (x - canvas.width / 2) * scale + (Math.random() - 0.5) * jitterAmount;
+                const py = (canvas.height / 2 - y) * scale + (Math.random() - 0.5) * jitterAmount;
+                const pz = (Math.random() - 0.5) * 5 * (0.5 + diffusion);
                 
                 positions.push(px, py, pz);
             }

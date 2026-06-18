@@ -6,6 +6,14 @@ export function createScene() {
     return scene;
 }
 
+export function updateSceneBackground(scene, transparent) {
+    if (transparent) {
+        scene.background = null;
+    } else {
+        scene.background = new THREE.Color(0x0a0a0f);
+    }
+}
+
 export function createCamera() {
     const camera = new THREE.PerspectiveCamera(
         75,
@@ -17,10 +25,11 @@ export function createCamera() {
     return camera;
 }
 
-export function createRenderer(container) {
+export function createRenderer(container, alpha = true) {
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
-        preserveDrawingBuffer: true
+        preserveDrawingBuffer: true,
+        alpha: alpha
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
